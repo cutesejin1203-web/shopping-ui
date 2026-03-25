@@ -34,7 +34,7 @@ const CheckoutBox = styled.div`
 const CartPage = () => {
   const { cartItems, removeFromCart, updateQuantity } = useCart();
   const navigate = useNavigate();
-
+console.log('cartItems :',cartItems);
   const handleCheckout = () => {
     // 결제 전에 로그인 여부 확인
     const token = localStorage.getItem('accessToken');
@@ -79,7 +79,8 @@ const CartPage = () => {
         <motion.div key={item.cartItemId} layout initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
           <CartItem>
             <img
-              src={`https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&q=80&w=200&sig=${item.itemId}`}
+              src={item.imgUrl}
+                //src={`https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&q=80&w=200&sig=${item.itemId}`}
               alt={item.name}
               style={{ width: '120px', height: '150px', objectFit: 'cover' }}
             />

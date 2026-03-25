@@ -9,9 +9,22 @@ const AdminContainer = styled.div`
   padding-bottom: 50px;
 `;
 
+// 기존 FormWrapper 스타일에 position: relative; 추가 (버튼 위치 잡기 위함)
 const FormWrapper = styled.form`
+  position: relative; /* 🚀 이거 꼭 추가해야 닫기 버튼이 폼 안에서 자리 잡아! */
   width: 100%; max-width: 500px; display: flex; flex-direction: column; gap: 20px;
   background: rgba(255, 255, 255, 0.05); padding: 40px; border: 1px solid #333;
+`;
+
+// 닫기 버튼 스타일 새로 추가
+const CloseButton = styled.button`
+  position: absolute;
+  top: 20px; right: 20px; /* 우측 상단 여백 */
+  background: transparent; border: none;
+  color: #888; font-size: 1.5rem; cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex; align-items: center; justify-content: center;
+  &:hover { color: #fff; transform: scale(1.1); }
 `;
 
 const Input = styled.input`
@@ -140,7 +153,9 @@ const AdminProductPage = () => {
     <AdminContainer>
       <h2 style={{fontFamily: 'Playfair Display', marginBottom: '30px', letterSpacing: '2px'}}>REGISTER PRODUCT</h2>
       <FormWrapper onSubmit={handleSubmit}>
-
+<       CloseButton type="button" onClick={() => navigate('/')}>
+          ✕
+        </CloseButton>
         <FileInputWrapper>
           <label style={{fontSize: '0.8rem', color: '#888'}}>PRODUCT IMAGES (상품 사진 - 최대 5장)</label>
           <FileLabel htmlFor="file-upload">📸 사진 선택하기 (CHOOSE PHOTOS)</FileLabel>

@@ -92,11 +92,19 @@ const InputIcon = styled.div`
 `;
 
 const Input = styled.input`
-  background: rgba(255,255,255,0.03); border: 1px solid #333;
+  background: rgba(255,255,255,0.03); 
+  border: 1px solid #333;
   padding: 15px 15px 15px 45px; /* 아이콘 공간 패딩 추가 */
-  color: #fff; font-size: 1rem; width: 100%; letter-spacing: 1px;
+  color: #fff; 
+  font-size: 1rem; 
+  width: 100%; 
+  letter-spacing: 1px;
   color-scheme: dark;
   transition: 0.3s;
+  
+  /* 🚀 이 줄을 추가해 줘! */
+  box-sizing: border-box; 
+
   &:focus { outline: none; border-color: #fff; background: rgba(255,255,255,0.06); }
   &::placeholder { color: #555; letter-spacing: 0px; }
 `;
@@ -226,11 +234,29 @@ const RegisterPage = () => {
     }
 
     try {
-      console.log("제출될 유저 데이터:", user); // 확인용 콘솔
-      setStep(3); // 성공 시 완료 화면으로
+      // 1. 서버에 보낼 데이터 정제 (DB에 필요 없는 '비밀번호 확인' 필드는 제외)
+      const { passwordConfirm, ...requestData } = user;
+
+      console.log("🚀 백엔드로 전송할 데이터:", requestData);
+debugger
+      // 2. 백엔드(스프링 부트) API 호출
+      const response = await axios.post('/api/auth/join', requestData, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      // 3. 성공 처리 (HTTP 상태 코드가 200번대일 경우)
+      if (response.status === 200 || response.status === 201) {
+        setStep(3); // 성공 시 완료 화면으로 이동
+      }
+
     } catch (err) {
-      console.error("에러 발생:", err);
-      alert("가입 중 에러가 발생했습니다.");
+      console.error("🚨 회원가입 에러:", err);
+
+      // 4. 에러 핸들링 (백엔드에서 보내주는 에러 메시지가 있으면 출력, 없으면 기본 메시지)
+      const errorMessage = err.response?.data?.message || "가입 처리 중 문제가 발생했습니다. 다시 시도해 주세요.";
+      alert(errorMessage);
     }
   };
 
