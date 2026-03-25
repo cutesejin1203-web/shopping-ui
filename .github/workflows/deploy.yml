@@ -1,0 +1,49 @@
+name: 🎨 프론트엔드 CI/CD 자동 배포
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: 🛎️ 1. 저장소 코드 가져오기
+      uses: actions/checkout@v4
+
+    - name: 🟢 2. Node.js 환경 세팅 (버전 20)
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+
+    - name: 📦 3. 패키지 설치 (npm install)
+      run: npm install
+
+    - name: 🔨 4. 리액트 프로젝트 빌드
+      run: npm run build
+      env:
+        CI: false # 💡 [꿀팁] 자잘한 ESLint 경고 때문에 빌드 터지는 거 방지!
+
+    - name: 🚚 5. GCP 서버로 빌드된 파일 전송 (로켓 배송!)
+      uses: appleboy/scp-action@master
+      with:
+        host: ${{ secrets.GCP_HOST }}
+        username: ${{ secrets.GCP_USERNAME }}
+        key: ${{ secrets.GCP_SSH_KEY }}
+        source: "build/*"
+        target: "frontend/" # 💡 서버의 ~/frontend 폴더로 일단 안전하게 전송!
+        strip_components: 1 # 'build'라는 껍데기 폴더명은 벗기고 내용물만!
+
+    - name: 🔄 6. Nginx 웹 서버로 파일 이동 및 적용
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.GCP_HOST }}
+        username: ${{ secrets.GCP_USERNAME }}
+        key: ${{ secrets.GCP_SSH_KEY }}
+        script: |
+          # 💡 로봇이 보낸 파일들을 Nginx가 서비스하는 폴더로 덮어쓰기!
+          sudo cp -r ~/frontend/* /var/www/html/
+          
+          # Nginx 새로고침 (무중단으로 변경사항 싹! 반영)
+          sudo systemctl reload nginx
