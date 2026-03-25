@@ -50,7 +50,7 @@ function App() {
             <Route path="/register" element={<RegisterPage />} />
 
               {/* [추가] 관리자 전용 상품 등록 페이지 */}
-            <Route path="/admin/product/new1" element={<AdminProductPage />} />
+            <Route path="/admin/product/new" element={<AdminProductPage />} />
           </Routes>
         </div>
       </Router>
