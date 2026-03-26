@@ -153,13 +153,12 @@ const Navbar = () => {
       </CategoryMenu>
 
       <RightMenu>
-        {/* ========================================== */}
-        {/* 🚀 [추가] Q&A 게시판 링크 (누구나 볼 수 있게 바깥에 배치) */}
-        {/* ========================================== */}
+        {/* 누구나 볼 수 있는 Q&A 게시판 */}
         <AuthLink to="/board" style={{ fontWeight: location.pathname.includes('/board') ? 'bold' : '300' }}>
           Q&A
         </AuthLink>
 
+        {/* 로그인 상태에 따른 렌더링 */}
         {!isLoggedIn ? (
           <AuthLink to="/login">SIGN IN</AuthLink>
         ) : (
@@ -170,9 +169,17 @@ const Navbar = () => {
               </AuthLink>
             )}
 
+            {/* 🚀 [핵심 추가] 주문 내역 (ORDERS) 링크 - 현재 경로가 /orders 이면 굵게 표시 */}
+            <AuthLink to="/orders" style={{ fontWeight: location.pathname === '/orders' ? 'bold' : '300' }}>
+              ORDERS
+            </AuthLink>
+
+            {/* 유저 프로필(인사말) */}
             <AuthLink to="/profile" style={{ color: '#fff', fontSize: '0.85rem', letterSpacing: '1.5px', fontWeight: 300, borderBottom: '1px solid #fff' }}>
               HELLO, {userName}
             </AuthLink>
+
+            {/* 로그아웃 버튼 */}
             <AuthLink
               as="button"
               onClick={handleLogout}

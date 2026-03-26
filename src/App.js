@@ -12,6 +12,7 @@ import RegisterPage from '@/pages/auth/RegisterPage';
 import AdminProductPage from '@/pages/admin/AdminProductPage'
 import { AuthProvider } from '@/context/AuthContext';
 import Profile from "@/pages/Profile";
+import OrderHistoryPage from "@/pages/OrderHistoryPage";
 import BoardList from '@/pages/main/board/BoardList';
 import BoardWrite from '@/pages/main/board/BoardWrite';
 import BoardDetail from '@/pages/main/board/BoardDetail';
@@ -57,6 +58,7 @@ function App() {
             <Route path="/board" element={<BoardList />} />
             <Route path="/board/write" element={<BoardWrite />} />
             <Route path="/board/:id" element={<BoardDetail />} />
+            <Route path="/orders" element={<OrderHistoryPage />} />
 
               {/* [추가] 관리자 전용 상품 등록 페이지 */}
             <Route path="/admin/product/new" element={<AdminProductPage />} />
