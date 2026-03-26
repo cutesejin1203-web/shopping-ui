@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import axios from 'axios';
 import { useItems } from '@/hooks/useItems';
 import { useCart } from '@/context/CartContext';
+import { useAuth } from '@/context/AuthContext'; // 🚀 [핵심 추가] 인증 컨텍스트 가져오기!
 import { ArrowLeft, Settings, Trash2 } from 'lucide-react';
 
 // ==========================================
@@ -61,13 +62,10 @@ const ProductDetail = () => {
   const { items, loading } = useItems();
   const { addToCart } = useCart();
 
-  const product = items?.find(item => item.itemId === parseInt(id));
+  // 🚀 [변경] 하드코딩 지우고 AuthContext에서 진짜 관리자 여부 뽑아오기!
+  const { isAdmin } = useAuth();
 
-  // 🚀 [디버깅 팁] 관리자 여부 확인
-  // 실제 서비스에서는 아래 주석을 풀고, 임시 true 값을 지워야 해!
-  // const userRole = localStorage.getItem('role');
-  // const isAdmin = userRole === 'ADMIN';
-  const isAdmin = true; // 현재 화면 디자인 확인을 위해 무조건 보이게 켜둠!
+  const product = items?.find(item => item.itemId === parseInt(id));
 
   // 🚀 삭제 핸들러
   const handleDelete = async () => {
