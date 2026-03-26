@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
-import { useCart } from '../../../context/CartContext'; // 경로 주의!
+import { useCart } from '@/context/CartContext'; // 경로 주의!
 import { Trash2, Plus, Minus, ArrowRight, ShoppingBag } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 

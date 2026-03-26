@@ -3,8 +3,8 @@ import { useParams, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import axios from 'axios';
-import { useItems } from '../../hooks/useItems';
-import { useCart } from '../../context/CartContext';
+import { useItems } from '@/hooks/useItems';
+import { useCart } from '@/context/CartContext';
 import { ArrowLeft, Settings, Trash2 } from 'lucide-react';
 
 // ==========================================

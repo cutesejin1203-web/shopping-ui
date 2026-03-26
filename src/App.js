@@ -2,15 +2,19 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import axios from 'axios';
 
-import MainPage from './pages/main/MainPage';
-import ProductDetail from './pages/main/ProductDetail';
-import Navbar from './components/Navbar';
-import { CartProvider } from './context/CartContext';
-import CartPage from './pages/main/cart/CartPage';
-import LoginPage from './pages/auth/LoginPage';
-import RegisterPage from './pages/auth/RegisterPage';
-import AdminProductPage from './pages/admin/AdminProductPage'
-import { AuthProvider } from './context/AuthContext'; // 👈 새로 만든 창고 가져오기
+import MainPage from '@/pages/main/MainPage';
+import ProductDetail from '@/pages/main/ProductDetail';
+import Navbar from '@/components/Navbar';
+import { CartProvider } from '@/context/CartContext';
+import CartPage from '@/pages/main/cart/CartPage';
+import LoginPage from '@/pages/auth/LoginPage';
+import RegisterPage from '@/pages/auth/RegisterPage';
+import AdminProductPage from '@/pages/admin/AdminProductPage'
+import { AuthProvider } from '@/context/AuthContext';
+import Profile from "@/pages/Profile";
+import BoardList from '@/pages/main/board/BoardList';
+import BoardWrite from '@/pages/main/board/BoardWrite';
+import BoardDetail from '@/pages/main/board/BoardDetail';
 
 
 // [환경 분리] 리액트가 실행된 환경에 따라 알아서 로컬 주소 or GCP 주소가 들어감!
@@ -45,9 +49,14 @@ function App() {
           <Routes>
             <Route path="/" element={<MainPage />} />
             <Route path="/product/:id" element={<ProductDetail />} />
+            <Route path="/admin/product/edit/:id" element={<AdminProductPage />} />
             <Route path="/cart" element={<CartPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/board" element={<BoardList />} />
+            <Route path="/board/write" element={<BoardWrite />} />
+            <Route path="/board/:id" element={<BoardDetail />} />
 
               {/* [추가] 관리자 전용 상품 등록 페이지 */}
             <Route path="/admin/product/new" element={<AdminProductPage />} />

@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react'; // 🚀 [추가] useState, useEffect 불러오기
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
-import { useItems } from '../../hooks/useItems';
-// import ProductCard from '../../components/ProductCard'; // 👈 외부 컴포넌트 안 쓰고 여기에 직접 정의할게!
-import { useAuth } from '../../context/AuthContext';
+import { useItems } from '@/hooks/useItems';
+import { useAuth } from '@/context/AuthContext';
 import axios from 'axios';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Trash2 } from 'lucide-react'; // 👈 삭제 아이콘용

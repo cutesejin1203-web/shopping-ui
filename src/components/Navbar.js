@@ -29,18 +29,17 @@ const Logo = styled(Link)`
   font-size: 1.5rem; 
   letter-spacing: 4px; 
   font-weight: 900;
-  flex: 1; /* 왼쪽 영역 차지 */
+  flex: 1; 
 `;
 
-// 🚀 [추가] 중앙 카테고리 메뉴 영역
 const CategoryMenu = styled.div`
   display: flex;
   justify-content: center;
   gap: 30px;
-  flex: 2; /* 중앙 영역 차지 */
+  flex: 2; 
 
   @media (max-width: 768px) {
-    display: none; /* 모바일에서는 숨김 처리 (필요시 햄버거 메뉴로 빼야함) */
+    display: none; 
   }
 `;
 
@@ -75,7 +74,7 @@ const RightMenu = styled.div`
   align-items: center;
   justify-content: flex-end;
   gap: 30px;
-  flex: 1; /* 오른쪽 영역 차지 */
+  flex: 1; 
 `;
 
 const CartLink = styled(Link)`
@@ -116,10 +115,9 @@ const AuthLink = styled(Link)`
 const Navbar = () => {
   const { cartCount } = useCart();
   const navigate = useNavigate();
-  const location = useLocation(); // 현재 경로 파악을 위해 추가
+  const location = useLocation();
   const { isLoggedIn, isAdmin, userName, logout } = useAuth();
 
-  // URL 쿼리 스트링에서 현재 카테고리 읽어오기 (기본값 ALL)
   const queryParams = new URLSearchParams(location.search);
   const currentCategory = queryParams.get('category') || 'ALL';
 
@@ -130,12 +128,9 @@ const Navbar = () => {
   };
 
   const handleCategoryClick = (category) => {
-    // 💡 네비바에서 카테고리 누르면, 메인 페이지(/)로 이동하면서 파라미터로 카테고리를 넘김!
     navigate(`/?category=${category}`);
-    
-    // 만약 이미 메인페이지라면 스크롤을 상품 목록 쪽으로 살짝 내려주는 센스도 좋음 (선택)
     if(location.pathname === '/') {
-        window.scrollTo({ top: 800, behavior: 'smooth' }); // 히어로 섹션 아래쯤으로 이동
+        window.scrollTo({ top: 800, behavior: 'smooth' });
     }
   };
 
@@ -144,13 +139,12 @@ const Navbar = () => {
   return (
     <Nav>
       <Logo to="/">GCP STORE</Logo>
-      
-      {/* 🚀 [추가] 상단 중앙 카테고리 메뉴 */}
+
       <CategoryMenu>
         {categories.map(cat => (
-          <CategoryLink 
+          <CategoryLink
             key={cat}
-            $active={currentCategory === cat && location.pathname === '/'} // 메인페이지면서 해당 카테고리일 때만 밑줄!
+            $active={currentCategory === cat && location.pathname === '/'}
             onClick={() => handleCategoryClick(cat)}
           >
             {cat}
@@ -159,6 +153,13 @@ const Navbar = () => {
       </CategoryMenu>
 
       <RightMenu>
+        {/* ========================================== */}
+        {/* 🚀 [추가] Q&A 게시판 링크 (누구나 볼 수 있게 바깥에 배치) */}
+        {/* ========================================== */}
+        <AuthLink to="/board" style={{ fontWeight: location.pathname.includes('/board') ? 'bold' : '300' }}>
+          Q&A
+        </AuthLink>
+
         {!isLoggedIn ? (
           <AuthLink to="/login">SIGN IN</AuthLink>
         ) : (
@@ -169,9 +170,9 @@ const Navbar = () => {
               </AuthLink>
             )}
 
-            <span style={{ color: '#fff', fontSize: '0.85rem', letterSpacing: '1.5px', fontWeight: 300 }}>
+            <AuthLink to="/profile" style={{ color: '#fff', fontSize: '0.85rem', letterSpacing: '1.5px', fontWeight: 300, borderBottom: '1px solid #fff' }}>
               HELLO, {userName}
-            </span>
+            </AuthLink>
             <AuthLink
               as="button"
               onClick={handleLogout}
